@@ -1,0 +1,4 @@
+com/programacion/ppw/test/PersistenceTest.class
+com/programacion/ppw/model/Libro.class
+com/programacion/ppw/dao/LibroDAO.class
+com/programacion/ppw/rest/BibliotecaResource.class
