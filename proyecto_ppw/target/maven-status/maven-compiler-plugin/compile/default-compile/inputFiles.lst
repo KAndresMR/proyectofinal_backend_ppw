@@ -1,4 +1,4 @@
-/Users/andresmorocho/eclipse-workspace/proyecto_ppw/src/main/java/com/programacion/ppw/rest/BibliotecaResource.java
-/Users/andresmorocho/eclipse-workspace/proyecto_ppw/src/main/java/com/programacion/ppw/dao/LibroDAO.java
-/Users/andresmorocho/eclipse-workspace/proyecto_ppw/src/main/java/com/programacion/ppw/model/Libro.java
-/Users/andresmorocho/eclipse-workspace/proyecto_ppw/src/main/java/com/programacion/ppw/test/PersistenceTest.java
+/Users/andresmorocho/Documents/GitHub/proyectofinal_backend_ppw/proyecto_ppw/src/main/java/com/programacion/ppw/dao/LibroDAO.java
+/Users/andresmorocho/Documents/GitHub/proyectofinal_backend_ppw/proyecto_ppw/src/main/java/com/programacion/ppw/rest/BibliotecaResource.java
+/Users/andresmorocho/Documents/GitHub/proyectofinal_backend_ppw/proyecto_ppw/src/main/java/com/programacion/ppw/test/PersistenceTest.java
+/Users/andresmorocho/Documents/GitHub/proyectofinal_backend_ppw/proyecto_ppw/src/main/java/com/programacion/ppw/model/Libro.java

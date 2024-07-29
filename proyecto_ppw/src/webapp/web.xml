@@ -3,8 +3,10 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
                              http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" 
          version="4.0">
+
+    <!-- Configuración del Servlet Jersey -->
     <servlet>
-        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <servlet-name>jersey-serlvet</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
@@ -12,8 +14,11 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+    <!-- Mapeo del Servlet Jersey -->
     <servlet-mapping>
-        <servlet-name>javax.ws.rs.core.Application</servlet-name>
-        <url-pattern>/api/*</url-pattern>
+        <servlet-name>jersey-serlvet</servlet-name>
+        <url-pattern>/apt/*</url-pattern>
     </servlet-mapping>
+
 </web-app>
