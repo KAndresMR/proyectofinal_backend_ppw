@@ -1,66 +1,35 @@
-package com.programacion.ppw.dao;
+package ec.edu.ups.ppw64.proyecto.dao;
 
 import java.util.List;
-import com.programacion.ppw.model.Libro;
+
+import ec.edu.ups.ppw64.proyecto.model.Libro;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
-public class LibroDAO {
+@Stateless
+public class LibroDao {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadDePersistencia");
-
-    public void agregarLibro(Libro libro) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(libro);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+	@PersistenceContext
+    private EntityManager em;
+	
+	public void insert(Libro libro) {
+        em.persist(libro);
     }
 
-    public List<Libro> obtenerLibros() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.createQuery("SELECT l FROM Libro l", Libro.class).getResultList();
-        } finally {
-            em.close();
-        }
+    public void update(Libro libro) {
+        em.merge(libro);
+    }  
+    
+    public Libro read(int id) {
+        return em.find(Libro.class, id);
     }
-
-    public Libro obtenerLibroPorId(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.find(Libro.class, id);
-        } finally {
-            em.close();
-        }
+    
+    public List<Libro> getAll() {
+        String jpql = "SELECT l FROM Libro l";
+        Query q = em.createQuery(jpql, Libro.class);
+        return q.getResultList();
     }
-
-    public void actualizarLibro(Libro libro) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.merge(libro);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-    }
-
-    public void eliminarLibro(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            Libro libro = em.find(Libro.class, id);
-            if (libro != null) {
-                em.remove(libro);
-            }
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-    }
+    
 }
