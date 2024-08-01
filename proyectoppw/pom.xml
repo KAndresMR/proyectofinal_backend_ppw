@@ -1,0 +1,265 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Identificación del proyecto -->
+	<groupId>ec.edu.ups</groupId> <!-- Identificador único del grupo o empresa -->
+	<artifactId>proyectoppw</artifactId> <!-- Identificador único del proyecto -->
+	<version>0.0.1-SNAPSHOT</version> <!-- Versión del proyecto -->
+	<packaging>war</packaging> <!-- Tipo de empaquetado, en este caso, un archivo
+	WAR -->
+
+	<name>proyectoppw</name> <!-- Nombre del proyecto -->
+	<description>Insert description for your project here.</description> <!--
+	Descripción del proyecto -->
+
+	<properties>
+		<!-- Configuración de codificación para evitar advertencias -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- Versiones de plugins y dependencias -->
+		<version.wildfly.maven.plugin>5.0.0.Final</version.wildfly.maven.plugin>
+		<version.wildfly.bom>32.0.1.Final</version.wildfly.bom>
+		<version.junit5>5.10.1</version.junit5>
+		<version.compiler.plugin>3.13.0</version.compiler.plugin>
+		<version.surefire.plugin>3.0.0</version.surefire.plugin>
+		<version.failsafe.plugin>3.2.5</version.failsafe.plugin>
+		<version.war.plugin>3.4.0</version.war.plugin>
+		<maven.compiler.release>11</maven.compiler.release> <!-- Versión de Java
+		para la compilación -->
+	</properties>
+
+	<repositories>
+		<!-- Repositorios de donde se descargan las dependencias -->
+		<repository>
+			<id>central</id>
+			<name>Main Apache Maven Repository</name>
+			<url>https://repo.maven.apache.org/maven2/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<!-- Repositorios para los plugins de Maven -->
+		<pluginRepository>
+			<id>central</id>
+			<name>Main Apache Maven Repository</name>
+			<url>https://repo.maven.apache.org/maven2/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencyManagement>
+		<!-- Gestión de versiones de dependencias -->
+		<dependencies>
+			<!-- BOM de WildFly para asegurar versiones correctas de las
+			dependencias -->
+			<dependency>
+				<groupId>org.wildfly.bom</groupId>
+				<artifactId>wildfly-ee-with-tools</artifactId>
+				<version>${version.wildfly.bom}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- BOM de JUnit 5 para pruebas -->
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${version.junit5}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- Dependencias requeridas para el proyecto -->
+		<!-- APIs proporcionadas por WildFly/JBoss EAP -->
+		<dependency>
+			<groupId>jakarta.enterprise</groupId>
+			<artifactId>jakarta.enterprise.cdi-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.faces</groupId>
+			<artifactId>jakarta.faces-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.ws.rs</groupId>
+			<artifactId>jakarta.ws.rs-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.ejb</groupId>
+			<artifactId>jakarta.ejb-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Dependencias para pruebas -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.junit5</groupId>
+			<artifactId>arquillian-junit5-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!-- Configuración de la construcción del proyecto -->
+		<finalName>${project.artifactId}</finalName> <!-- Nombre final del
+		archivo construido -->
+
+		<plugins>
+			<!-- Plugin para la compilación del código -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${version.compiler.plugin}</version>
+			</plugin>
+
+			<!-- Plugin para la creación del archivo WAR -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${version.war.plugin}</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+
+			<!-- Plugin de WildFly para desplegar el WAR -->
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>${version.wildfly.maven.plugin}</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<!-- Perfiles para diferentes configuraciones -->
+		<profile>
+			<id>default</id> <!-- Perfil por defecto -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>arq-managed</id> <!-- Perfil para pruebas con Arquillian en un
+			contenedor gestionado -->
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${version.failsafe.plugin}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<systemPropertyVariables>
+								<arquillian.launch>managed</arquillian.launch> <!--
+								Configuración para Arquillian -->
+							</systemPropertyVariables>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>arq-remote</id> <!-- Perfil para pruebas con Arquillian en un
+			contenedor remoto -->
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-remote</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${version.failsafe.plugin}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<systemPropertyVariables>
+								<arquillian.launch>remote</arquillian.launch> <!--
+								Configuración para Arquillian -->
+							</systemPropertyVariables>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
+
+
+						
